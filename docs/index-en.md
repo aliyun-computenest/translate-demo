@@ -251,8 +251,7 @@ public network bandwidth
 ## Use process
 
 This service already has two workflows built in that you can use directly. The plugins and models involved are also ready.
-![img_1.png](img/workflows.png)
-
+![images-en/img_4.png](images-en/img_4.png)
 ### Tusheng video or Wensheng video function
 
 1. Select the desired function in the figure below. It is recommended to choose only one to use to avoid bursting memory.![img.png](img-en/option.png)
