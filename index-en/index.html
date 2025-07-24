@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="计算巢是阿里云开放给企业应用服务商的服务管理平台。服务商能够在计算巢上发布私有化部署服务，为其客户提供云上软件一键部署的能力；同时也支持全托管模式的服务，赋能服务商托管其客户资源。">
+  <title>ComfyUI Community Edition - Aliyun 计算巢 x Demo</title>
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+  <link rel="stylesheet" href="../css/theme.css">
+  
+
+  
+
+  
+  
+
+  
+    <script src="../search/main.js"></script>
+  
+
+  
+
+  <script src="../js/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="nav">
+      <div class="nav-inner">
+        <div class="logo">
+          <img src="./img/logo-2x.png">
+        </div>
+        <div class="nav-list">
+          <ul>
+          
+              <li><a href="#comfyui-community-edition">ComfyUI Community Edition</a></li>
+              
+                  <li><a href="#overview">Overview</a></li>
+                  
+              
+                  <li><a href="#prerequisites">Prerequisites</a></li>
+                  
+              
+                  <li><a href="#billing-description">Billing Description</a></li>
+                  
+                      <li class="li-h3"><a href="#acs-version-fee">ACS version fee</a></li>
+                  
+                      <li class="li-h3"><a href="#community-edition-fee">Community Edition Fee</a></li>
+                  
+              
+                  <li><a href="#overall-architecture">Overall architecture</a></li>
+                  
+              
+                  <li><a href="#deployment-process">Deployment process</a></li>
+                  
+                      <li class="li-h3"><a href="#acs-version-deployment">ACS version deployment</a></li>
+                  
+                      <li class="li-h3"><a href="#ecs-community-edition-deployment">ECS Community Edition Deployment</a></li>
+                  
+              
+                  <li><a href="#parameter-description">Parameter description</a></li>
+                  
+              
+                  <li><a href="#built-in-model-description">Built-in model description</a></li>
+                  
+                      <li class="li-h3"><a href="#overview-of-main-models">Overview of main models</a></li>
+                  
+                      <li class="li-h3"><a href="#full-model-resource-list">Full Model Resource List</a></li>
+                  
+                      <li class="li-h3"><a href="#how-to-upload-your-own-model">How to upload your own model</a></li>
+                  
+                      <li class="li-h3"><a href="#model-download">Model Download</a></li>
+                  
+              
+                  <li><a href="#use-process">Use process</a></li>
+                  
+                      <li class="li-h3"><a href="#tusheng-video-or-wensheng-video-function">Tusheng video or Wensheng video function</a></li>
+                  
+                      <li class="li-h3"><a href="#wensheng-diagram-function">Wensheng diagram function</a></li>
+                  
+                      <li class="li-h3"><a href="#figure-function">Figure function</a></li>
+                  
+              
+                  <li><a href="#api-call">API call</a></li>
+                  
+                      <li class="li-h3"><a href="#api-endpoint-overview">API Endpoint Overview</a></li>
+                  
+              
+          
+              <li><a href="#load-workflow">Load workflow</a></li>
+              
+          
+              <li><a href="#submitted">Submitted</a></li>
+              
+          
+              <li><a href="#download-all-output-files">Download all output files</a></li>
+              
+          
+              <li><a href="#handle-different-types-of-output">Handle different types of output</a></li>
+              
+          
+              <li><a href="#use-examples">Use Examples</a></li>
+              
+                  <li><a href="#wen-sheng-video-api-mode">Wen Sheng Video API Mode</a></li>
+                  
+              
+                  <li><a href="#picture-generation-video-api">Picture generation video API</a></li>
+                  
+              
+                  <li><a href="#account-password">Account password</a></li>
+                  
+              
+                  <li><a href="#frequently-asked-questions">Frequently Asked Questions</a></li>
+                  
+              
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="content theme-github">
+      
+      <div class="content-inner">        
+        
+        <h1 id="comfyui-community-edition">ComfyUI Community Edition</h1>
+<blockquote>
+<p><strong>Disclaimer:</strong> This service is provided by a third party. We try our best to ensure its safety, accuracy and reliability, but we cannot guarantee that it is completely free from failures, interruptions, errors or attacks. Therefore, the company hereby declares that it makes no representations, warranties or commitments regarding the content, accuracy, completeness, reliability, suitability and timeliness of the Service and is not liable for any direct or indirect loss or damage arising from your use of the Service; for third-party websites, applications, products and services that you access through the Service, do not assume any responsibility for its content, accuracy, completeness, reliability, applicability and timeliness, and you shall bear the risks and responsibilities of the consequences of use; for any loss or damage arising from your use of this service, including but not limited to direct loss, indirect loss, loss of profits, loss of goodwill, loss of data or other economic losses, even if we have been advised in advance of the possibility of such loss or damage; we reserve the right to amend this statement from time to time, so please check this statement regularly before using the Service. If you have any questions or concerns about this Statement or the Service, please contact us.</p>
+</blockquote>
+<h2 id="overview">Overview</h2>
+<p>ComfyUI is the most powerful open source, node-based, generative AI application for creating images, video, and audio content. Relying on cutting-edge open source models can achieve video and image generation.
+According to the official documentation, the ComfyUI has the following characteristics:
+Node/Graph/Flowchart interface for experimenting and creating complex stable diffusion workflows without writing any code.
+Full support for SD1.x, SD2.x and SDXL
+asynchronous queue system
+Multiple optimizations re-execute only those parts of the workflow that have changed between executions.
+Command line options: -- lowvram to make it run on GPUs with less than 3GB of memory (automatically enabled on GPUs with low memory)
+Can be used even without GPU: -- cpu (slow)
+Can load ckpt, safetensors, and diffusers models/checkpoints. Independent VAE and CLIP models.
+Embedding/Text Inversion
+Loras (regular, locon and loha)
+Hypernetwork
+Load the complete workflow from the generated PNG file (with seed
+Save/load workflow as Json file.
+The node interface can be used to create complex workflows, such as "Hires fix" or more advanced workflows.
+Regional Synthesis
+Inline using regular and Inline models.
+Control network and T2I adapter
+Upgrade models (ESRGAN, ESRGAN variants, SwinIR, Swin2SR, etc.)
+unCLIP model
+GLIGEN
+Model Merge
+Latent preview with TAESD
+Start up extremely fast.
+Works completely offline: nothing is downloaded.
+The configuration file sets the search path for the model.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>To deploy the ComfyUI Community Edition service instance, you need to access and create some Alibaba Cloud resources. Therefore, your account must contain permissions for the following resources. <strong>Note</strong>: This permission is required only when your account is a RAM account.</p>
+<table>
+<thead>
+<tr>
+<th>Permission policy name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AliyunECSFullAccess</td>
+<td>Permissions for managing ECS instances</td>
+</tr>
+<tr>
+<td>AliyunVPCFullAccess</td>
+<td>Permissions to manage a VPC</td>
+</tr>
+<tr>
+<td>AliyunROSFullAccess</td>
+<td>Manage permissions for Resource Orchestration Service (ROS)</td>
+</tr>
+<tr>
+<td>AliyunCSFullAccess</td>
+<td>Manage permissions for Container Service (CS)</td>
+</tr>
+<tr>
+<td>AliyunComputeNestUserFullAccess</td>
+<td>Manage user-side permissions for the compute nest service (ComputeNest)</td>
+</tr>
+<tr>
+<td>AliyunOSSFullAccess</td>
+<td>Permissions to manage Network Object Storage Service (OSS)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="billing-description">Billing Description</h2>
+<h3 id="acs-version-fee">ACS version fee</h3>
+<p>The cost of this service on Alibaba Cloud is mainly related:
+* ACS Fees
+* Springboard machine ECS fee
+* Note: This ECS is used to deploy and manage K8S clusters. The/root directory stores the K8S Yaml resource files used for deployment. If you need to modify the parameters later, you can re-execute the apply kubectl after modifying them.
+If the deployment is completed, it can be released by itself if it is not needed.
+* OSS Fees</p>
+<p>Billing method: pay by volume (hour) or package year and month
+The estimated cost can be seen in real time when the instance is created.</p>
+<h3 id="community-edition-fee">Community Edition Fee</h3>
+<p>The cost of community edition deployment in computing nest mainly involves:
+Selected vCPU and Memory Specifications
+System disk type and capacity
+public network bandwidth</p>
+<h2 id="overall-architecture">Overall architecture</h2>
+<p><img alt="images-en/acs-arch.png" src="../images-en/acs-arch.png" /></p>
+<h2 id="deployment-process">Deployment process</h2>
+<h3 id="acs-version-deployment">ACS version deployment</h3>
+<ol>
+<li>
+<p>Click <a href="https://computenest.console.aliyun.com/service/instance/create/cn-hangzhou?type=user&amp;ServiceName=ComfyUI-ACS社区版">Deployment Link</a>. Fill in the parameters according to the interface prompt to see the corresponding RFQ details. After confirming the parameters, click <strong>Next: Confirm Order</strong>.
+<img alt="img.png" src="../acs-en/img.png" /></p>
+</li>
+<li>
+<p>Click <strong>Next: After confirming the order</strong>, you can also see the price preview, then click <strong>Deploy Now</strong> and wait for the deployment to complete.
+<img alt="price.png" src="../acs-en/price.png" /></p>
+</li>
+<li>
+<p>Wait for the deployment to complete before you can start using the service.
+<img alt="img_2.png" src="../acs-en/img_2.png" /></p>
+</li>
+</ol>
+<h3 id="ecs-community-edition-deployment">ECS Community Edition Deployment</h3>
+<ol>
+<li>Visit the calculation nest <a href="https://computenest.console.aliyun.com/service/instance/create/cn-hangzhou?type=user&amp;ServiceName=Comfy-UI社区版">deployment link</a> and fill in the deployment parameters as prompted</li>
+<li>Fill in the instance parameters<img alt="" src="../img-en/param1.png" />, select the method and instance type you want to purchase.</li>
+<li>
+<ul>
+<li>
+<ul>
+<li>Note * * If you want to use the video function, in order to reduce the possibility of RAM memory explosion, please select a graphics card specification above A10 with a memory specification of more than 60G.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Choose to create a new private network or directly use an existing private network according to your needs. Fill in the available area and network parameters<img alt="" src="../img-en/param2.png" /></li>
+<li>Click Create Now and wait for the service instance deployment to complete<img alt="" src="../img-en/param3.png" /></li>
+<li>After the service instance is deployed, click the instance ID to enter the details interface<img alt="" src="../img-en/serviceInstance2.png" /></li>
+<li>Access the URL of the service instance, where we use a secure proxy for direct access. Avoid exposing your data to the public network to be obtained by others<img alt="" src="../img-en/serviceInstance3.png" /></li>
+<li>Enter the ComfyUI use interface</li>
+</ol>
+<h2 id="parameter-description">Parameter description</h2>
+<table>
+<thead>
+<tr>
+<th>Parameter group</th>
+<th>Parameter item</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Service Instance</td>
+<td>Service Instance Name</td>
+<td>The service instance name must be no more than 64 characters in length and must start with an English letter. It can contain numbers, English letters, dashes (-), and underscores (_).</td>
+</tr>
+<tr>
+<td></td>
+<td>Region</td>
+<td>The region where the service instance is deployed</td>
+</tr>
+<tr>
+<td></td>
+<td>Billing Type</td>
+<td>Billing type of the resource: Pay-As-You-Go and Subscription</td>
+</tr>
+<tr>
+<td>ECS instance configuration</td>
+<td>Instance type</td>
+<td>Available instance types in the zone</td>
+</tr>
+<tr>
+<td>Network Configuration</td>
+<td>Availability Zone</td>
+<td>The zone where the ECS instance is located</td>
+</tr>
+<tr>
+<td></td>
+<td>VPC ID</td>
+<td>The VPC where the resource resides</td>
+</tr>
+<tr>
+<td></td>
+<td>VSwitch ID</td>
+<td>VSwitch where the resource resides</td>
+</tr>
+</tbody>
+</table>
+<h2 id="built-in-model-description">Built-in model description</h2>
+<h3 id="overview-of-main-models">Overview of main models</h3>
+<p>| Model name | Type | Parameter scale | Resolution | Quantization format | Introduction |
+| --------- | ------ | --------- | --------- | --------- | ------ | ------ |
+| Wan2_1-I2V-14B-480P_fp8_e4m3fn.safetensors | Picture Video | 14B | 480P | FP8 E4M3FN | WanVideo 2.1 Picture Video Model, 14B Parameters, Support 480P Resolution Output, Use FP8 Quantization to Save Video |
+| Wan2_1-T2V-14B_fp8_e4m3fn.safetensors | Vincent Video | 14B | Standard | FP8 E4M3FN | WanVideo 2.1 Vincent Video Model, 14B Parameters, Generate Video Directly from Text, FP8 Quantized Version |
+| flux1-dev.safetensors | Image Generation | - | High Resolution | Standard | Flux. 1 Dev model, high-quality image generation model, support for high-resolution output, developer version |
+| wan2.1/Wan2_1-T2V-1_3B_fp8_e4m3fn.safetensors | Wensheng Video | 1.3B | Standard | FP8 E4M3FN | WanVideo 2.1 Lightweight Wensheng Video Model, 1.3B Parameters, Lower Display and Storage Requirements Compared with 14B Version, Suitable for Resource-Constrained Environment |
+| vace-1.3b.safetensors | Video Editing | 1.3B | Standard | Standard | VACE 1.3B video editing model, focusing on video content editing and processing, lightweight design, suitable for fast video editing tasks |</p>
+<h3 id="full-model-resource-list">Full Model Resource List</h3>
+<h4 id="model-categories-overview">📊<strong>Model Categories Overview</strong></h4>
+<table>
+<thead>
+<tr>
+<th><strong>Category</strong></th>
+<th><strong>Directory</strong></th>
+<th><strong>Total Size</strong></th>
+<th><strong>Model Count</strong></th>
+<th><strong>Primary Function</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Diffusion Models</td>
+<td>'/diffusion_models'</td>
+<td>53GB</td>
+<td>6 models</td>
+<td>Core image/video generation</td>
+</tr>
+<tr>
+<td>Text Encoders</td>
+<td>'/text_encoders'</td>
+<td>22GB</td>
+<td>2 models</td>
+<td>Text understanding</td>
+</tr>
+<tr>
+<td>CLIP Models</td>
+<td>'/clip'</td>
+<td>17GB</td>
+<td>4 models</td>
+<td>Vision-language understanding</td>
+</tr>
+<tr>
+<td>Checkpoints</td>
+<td>'/checkpoints'</td>
+<td>17GB</td>
+<td>1 model</td>
+<td>Complete model checkpoints</td>
+</tr>
+<tr>
+<td>UNET Models</td>
+<td>'/unet'</td>
+<td>14GB</td>
+<td>1 model</td>
+<td>Neural network architecture</td>
+</tr>
+<tr>
+<td>VAE Models</td>
+<td>'/vae'</td>
+<td>1.5GB</td>
+<td>5 models</td>
+<td>Latent space processing</td>
+</tr>
+<tr>
+<td>CLIP Vision</td>
+<td>'/clip_vision'</td>
+<td>2.4GB</td>
+<td>1 model</td>
+<td>Visual understanding</td>
+</tr>
+<tr>
+<td>Face Restoration</td>
+<td>'/facerestore_models'</td>
+<td>1.3GB</td>
+<td>4 models</td>
+<td>Face enhancement</td>
+</tr>
+<tr>
+<td>Video Interpolation</td>
+<td>'/interpolation'</td>
+<td>824MB</td>
+<td>4 models</td>
+<td>Frame interpolation</td>
+</tr>
+<tr>
+<td>Content Safety</td>
+<td>'/nsfw_detector'</td>
+<td>329MB</td>
+<td>1 model</td>
+<td>Content moderation</td>
+</tr>
+<tr>
+<td>Upscaling</td>
+<td>'/upscale_models'</td>
+<td>192MB</td>
+<td>3 models</td>
+<td>Image super-resolution</td>
+</tr>
+<tr>
+<td>VAE Approximation</td>
+<td>'/vae_approx'</td>
+<td>19MB</td>
+<td>4 models</td>
+<td>Fast preview generation</td>
+</tr>
+<tr>
+<td>Text Embeddings</td>
+<td>'/embeddings'</td>
+<td>260KB</td>
+<td>2 models</td>
+<td>Negative prompts</td>
+</tr>
+<tr>
+<td>Configurations</td>
+<td>'/configs'</td>
+<td>52KB</td>
+<td>11 files</td>
+<td>Model configurations</td>
+</tr>
+</tbody>
+</table>
+<h4 id="diffusion-models-diffusion_models-53gb">🎯<strong>Diffusion Models</strong> ('/diffusion_models') - 53GB</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Model Name</strong></th>
+<th><strong>Size</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Parameters</strong></th>
+<th><strong>Function</strong></th>
+<th><strong>Best For</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>'Wan2_1-I2V-14B-480P_fp8_e4m3fn.safetensors'</td>
+<td>16GB</td>
+<td>Image→Video</td>
+<td>14B</td>
+<td>Animate static images</td>
+<td>Image animation</td>
+</tr>
+<tr>
+<td>'Wan2_1-T2V-14B_fp8_e4m3fn.safetensors'</td>
+<td>14GB</td>
+<td>Text→Video</td>
+<td>14B</td>
+<td>Generate videos from text</td>
+<td>Text-to-video</td>
+</tr>
+<tr>
+<td>'flux1-dev.safetensors'</td>
+<td>12GB</td>
+<td>Text→Image</td>
+<td>-</td>
+<td>Experimental image generation</td>
+<td>Testing new features</td>
+</tr>
+<tr>
+<td>'wan21_vace_1_3b.safetensors'</td>
+<td>6.7GB</td>
+<td>Video Editing</td>
+<td>1.3B</td>
+<td>Enhanced video editing</td>
+<td>Professional editing</td>
+</tr>
+<tr>
+<td>'wan2.1/Wan2_1-T2V-1_3B_fp8_e4m3fn.safetensors'</td>
+<td>1.4GB</td>
+<td>Text→Video</td>
+<td>1.3B</td>
+<td>Fast video generation</td>
+<td>Quick previews</td>
+</tr>
+</tbody>
+</table>
+<h4 id="text-encoders-text_encoders-22gb">🧠<strong>Text Encoders</strong> ('/text_encoders') - 22GB</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Model Name</strong></th>
+<th><strong>Size</strong></th>
+<th><strong>Format</strong></th>
+<th><strong>Precision</strong></th>
+<th><strong>Function</strong></th>
+<th><strong>Best For</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>'wan2.1/umt5-xxl-enc-bf16.safetensors'</td>
+<td>11GB</td>
+<td>SafeTensors</td>
+<td>BF16</td>
+<td>Multi-language text encoding</td>
+<td>High-quality generation</td>
+</tr>
+<tr>
+<td>'wan2.1/models_t5_umt5-xxl-enc-bf16.pth'</td>
+<td>11GB</td>
+<td>PyTorch</td>
+<td>BF16</td>
+<td>T5-based text encoding</td>
+<td>PyTorch workflows</td>
+</tr>
+</tbody>
+</table>
+<h4 id="clip-models-clip-17gb">🎨<strong>CLIP Models</strong> ('/clip') - 17GB</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Model Name</strong></th>
+<th><strong>Size</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Precision</strong></th>
+<th><strong>Function</strong></th>
+<th><strong>Best For</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>'t5xxl_fp16.safetensors'</td>
+<td>9.2GB</td>
+<td>T5 Text Encoder</td>
+<td>FP16</td>
+<td>Advanced text understanding</td>
+<td>Complex prompts</td>
+</tr>
+<tr>
+<td>'umt5_xxl_fp8_e4m3fn.safetensors'</td>
+<td>6.3GB</td>
+<td>UMT5 Encoder</td>
+<td>FP8</td>
+<td>Efficient text encoding</td>
+<td>Resource optimization</td>
+</tr>
+<tr>
+<td>'wan2.1/open-clip-xlm-roberta-large-vit-huge-14_visual_fp16.safetensors'</td>
+<td>1.2GB</td>
+<td>Multilingual CLIP</td>
+<td>FP16</td>
+<td>Cross-language vision</td>
+<td>International content</td>
+</tr>
+<tr>
+<td>'clip_l.safetensors'</td>
+<td>235MB</td>
+<td>CLIP Language</td>
+<td>-</td>
+<td>Vision-language alignment</td>
+<td>Standard workflows</td>
+</tr>
+</tbody>
+</table>
+<h4 id="checkpoints-checkpoints-17gb">💾<strong>Checkpoints</strong> ('/checkpoints') - 17GB</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Model Name</strong></th>
+<th><strong>Size</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Precision</strong></th>
+<th><strong>Function</strong></th>
+<th><strong>Best For</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>'flux1-schnell-fp8.safetensors'</td>
+<td>17GB</td>
+<td>Fast Image Gen</td>
+<td>FP8</td>
+<td>Rapid image generation</td>
+<td>Production workflows</td>
+</tr>
+</tbody>
+</table>
+<h4 id="unet-models-unet-14gb">🔧<strong>UNET Models</strong> ('/unet') - 14GB</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Model Name</strong></th>
+<th><strong>Size</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Quantization</strong></th>
+<th><strong>Function</strong></th>
+<th><strong>Best For</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>'Wan2.1_14B_VACE-Q6_K.gguf'</td>
+<td>14GB</td>
+<td>Video Editing</td>
+<td>Q6_K</td>
+<td>Professional video editing</td>
+<td>High-quality editing</td>
+</tr>
+</tbody>
+</table>
+<h4 id="vae-models-vae-15gb">🔄<strong>VAE Models</strong> ('/vae') - 1.5GB</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Model Name</strong></th>
+<th><strong>Size</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Precision</strong></th>
+<th><strong>Function</strong></th>
+<th><strong>Best For</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>'AE .safetensors'</td>
+<td>320MB</td>
+<td>Standard VAE</td>
+<td>-</td>
+<td>Basic latent processing</td>
+<td>General use</td>
+</tr>
+<tr>
+<td>'vae-ft-mse-840000-ema-pruned.safetensors'</td>
+<td>320MB</td>
+<td>Fine-tuned VAE</td>
+<td>-</td>
+<td>High-quality reconstruction</td>
+<td>Quality workflows</td>
+</tr>
+<tr>
+<td>'diffusion_pytorch_model.safetensors'</td>
+<td>320MB</td>
+<td>Standard VAE</td>
+<td>-</td>
+<td>Broad compatibility</td>
+<td>General compatibility</td>
+</tr>
+<tr>
+<td>'wan2.1/Wan2_1_VAE_bf16.safetensors'</td>
+<td>243MB</td>
+<td>Wan2.1 VAE</td>
+<td>BF16</td>
+<td>Video-optimized processing</td>
+<td>Video generation</td>
+</tr>
+<tr>
+<td>'wan21_vace_vae.safetensors'</td>
+<td>243MB</td>
+<td>VACE VAE</td>
+<td>-</td>
+<td>Video editing processing</td>
+<td>Video editing</td>
+</tr>
+</tbody>
+</table>
+<h4 id="clip-vision-models-clip_vision-24gb">👁️ <strong>CLIP Vision Models</strong> ('/clip_vision') - 2.4GB</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Model Name</strong></th>
+<th><strong>Size</strong></th>
+<th><strong>Architecture</strong></th>
+<th><strong>Training Data</strong></th>
+<th><strong>Function</strong></th>
+<th><strong>Best For</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>'CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors'</td>
+<td>2.4GB</td>
+<td>ViT-Huge-14</td>
+<td>LAION-2B</td>
+<td>Visual understanding</td>
+<td>High-quality analysis</td>
+</tr>
+</tbody>
+</table>
+<h4 id="video-interpolation-models-interpolation-824mb">🎬<strong>Video Interpolation Models</strong> ('/interpolation') - 824MB</h4>
+<h5 id="gimm-vfi-directory-interpolationgimm-vfi-interpolationgimm-vfi_safetensors">GIMM-VFI Directory ('/interpolation/gimm-vfi' &amp; '/interpolation/GIMM-VFI_safetensors')</h5>
+<table>
+<thead>
+<tr>
+<th><strong>Model Name</strong></th>
+<th><strong>Size</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Function</strong></th>
+<th><strong>Best For</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>'gimmvfi_f_arb_lpips_fp32.safetensors'</td>
+<td>117MB</td>
+<td>Full VFI Model</td>
+<td>Complete frame interpolation</td>
+<td>Production workflows</td>
+</tr>
+<tr>
+<td>'gimmvfi_r_arb_lpips_fp32.safetensors'</td>
+<td>76MB</td>
+<td>Refinement Model</td>
+<td>Frame quality enhancement</td>
+<td>Quality improvement</td>
+</tr>
+<tr>
+<td>'flowformer_sintel_fp32.safetensors'</td>
+<td>62MB</td>
+<td>Motion Model</td>
+<td>Advanced motion understanding</td>
+<td>Complex motion</td>
+</tr>
+<tr>
+<td>'raft-things_fp32.safetensors'</td>
+<td>21MB</td>
+<td>Optical Flow</td>
+<td>Motion estimation</td>
+<td>Motion calculation</td>
+</tr>
+</tbody>
+</table>
+<h4 id="face-restoration-models-facerestore_models-13gb">🔍<strong>Face Restoration Models</strong> ('/facerestore_models') - 1.3GB</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Model Name</strong></th>
+<th><strong>Size</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Function</strong></th>
+<th><strong>Best For</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>'codeformer-v0.1.0.pth'</td>
+<td>360MB</td>
+<td>CodeFormer</td>
+<td>Advanced face enhancement</td>
+<td>Professional portraits</td>
+</tr>
+<tr>
+<td>'GFPGANv1.4.pth'</td>
+<td>333MB</td>
+<td>GFPGAN v1.4</td>
+<td>Improved face restoration</td>
+<td>High-quality restoration</td>
+</tr>
+<tr>
+<td>'GFPGANv1.3.pth'</td>
+<td>333MB</td>
+<td>GFPGAN v1.3</td>
+<td>Face restoration</td>
+<td>General face enhancement</td>
+</tr>
+<tr>
+<td>'GPEN-BFR-512.onnx'</td>
+<td>272MB</td>
+<td>GPEN (ONNX)</td>
+<td>Real-time face restoration</td>
+<td>Fast processing</td>
+</tr>
+</tbody>
+</table>
+<h4 id="upscaling-models-upscale_models-192mb">⬆️ <strong>Upscaling Models</strong> ('/upscale_models') - 192MB</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Model Name</strong></th>
+<th><strong>Size</strong></th>
+<th><strong>Scale</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Function</strong></th>
+<th><strong>Best For</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>'8x_NMKD-Superscale_150000_G.pth'</td>
+<td>64MB</td>
+<td>8x</td>
+<td>NMKD</td>
+<td>Extreme upscaling</td>
+<td>Maximum resolution</td>
+</tr>
+<tr>
+<td>'4x_foolhardy_Remacri.pth'</td>
+<td>64MB</td>
+<td>4x</td>
+<td>Enhanced ESRGAN</td>
+<td>Sharp upscaling</td>
+<td>General upscaling</td>
+</tr>
+<tr>
+<td>'4x_NMKD-Siax_200k.pth'</td>
+<td>64MB</td>
+<td>4x</td>
+<td>NMKD Siax</td>
+<td>Alternative upscaling</td>
+<td>Artistic enhancement</td>
+</tr>
+</tbody>
+</table>
+<h4 id="content-safety-models-nsfw_detector-329mb">🚫<strong>Content Safety Models</strong> ('/nsfw_detector') - 329MB</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Model Name</strong></th>
+<th><strong>Size</strong></th>
+<th><strong>Architecture</strong></th>
+<th><strong>Function</strong></th>
+<th><strong>Best For</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>'vit-base-nsfw-detector/model.safetensors'</td>
+<td>329MB</td>
+<td>ViT-Base</td>
+<td>Content moderation</td>
+<td>Safety filtering</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Additional Files:</strong>
+-'config.json'-Model configuration
+-'preprocessor_config.json'-Input preprocessing
+-'confusion_matrix.png'-Performance metrics</p>
+<h4 id="vae-approximation-models-vae_approx-19mb">⚡<strong>VAE Approximation Models</strong> ('/vae_approx') - 19MB</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Model Name</strong></th>
+<th><strong>Size</strong></th>
+<th><strong>Target</strong></th>
+<th><strong>Function</strong></th>
+<th><strong>Best For</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>'taef1_decoder.pth'</td>
+<td>4.8MB</td>
+<td>SD3/FLUX</td>
+<td>Fast preview for SD3/FLUX</td>
+<td>Modern models</td>
+</tr>
+<tr>
+<td>'taesd3_decoder.pth'</td>
+<td>4.8MB</td>
+<td>SD3</td>
+<td>Fast preview for SD3</td>
+<td>SD3 workflows</td>
+</tr>
+<tr>
+<td>'taesdxl_decoder.pth'</td>
+<td>4.7MB</td>
+<td>SDXL</td>
+<td>Fast preview for SDXL</td>
+<td>SDXL workflows</td>
+</tr>
+<tr>
+<td>'taesd_decoder.pth'</td>
+<td>4.7MB</td>
+<td>SD1.5</td>
+<td>Fast preview for SD1.5</td>
+<td>SD1.5 workflows</td>
+</tr>
+</tbody>
+</table>
+<h3 id="how-to-upload-your-own-model">How to upload your own model</h3>
+<ol>
+<li>Find the deployed service instance in the computing nest console, switch Tab to the resource interface, find the resource whose product is the object storage OSS, and click Enter.<img alt="images-en/img_3.png" src="../images-en/img_3.png" /></li>
+<li>Access the "file list", under the path/llm-model/model for all types of models.<img alt="images-en/img_4.png" src="../images-en/img_4.png" /></li>
+<li>You can upload the model according to your own needs and restart the comfyui client.<img alt="images-en/img_5.png" src="../images-en/img_5.png" /></li>
+</ol>
+<h3 id="model-download">Model Download</h3>
+<ol>
+<li>recommend to go to magic to download</li>
+<li>The model storage path is:/root/storage/models</li>
+</ol>
+<h2 id="use-process">Use process</h2>
+<p>This service already has two workflows built in that you can use directly. The plugins and models involved are also ready.
+<img alt="images-en/img_4.png" src="../images-en/img_4.png" /></p>
+<h3 id="tusheng-video-or-wensheng-video-function">Tusheng video or Wensheng video function</h3>
+<ol>
+<li>Select the desired function in the figure below. It is recommended to choose only one to use to avoid bursting memory.<img alt="img.png" src="../img-en/option.png" /></li>
+<li>Select the workflow sidebar according to the instructions in the figure, select wanx-21.json and open it.<img alt="img.png" src="../img-en/app2.png" /></li>
+<li>Select a sample picture here or choose your own local computer to upload.<img alt="img.png" src="../img-en/app3.png" /></li>
+<li>Fill in the description at the TextEncode. The upper part is what you want to generate, and the lower part is what you don't want to generate.<img alt="img.png" src="../img-en/prompt.png" /></li>
+<li>The resolution and frame number of the picture can be set at the ImageClip Encode. This model can be set up to 720*720.<img alt="img.png" src="../img-en/definition.png" /></li>
+<li>Other parameters can refer to official website: https://comfyui-wiki.com/zh/interface/node-options或以下文档:https://github.com/kijai/ComfyUI-WanVideoWrapper/blob/main/readme.md</li>
+</ol>
+<p>PS: If you use the vace model, you can use the workflow vace.json as a reference
+<img alt="images-en/img_9.png" src="../images-en/img_9.png" /></p>
+<h3 id="wensheng-diagram-function">Wensheng diagram function</h3>
+<ol>
+<li>Select the workflow funny_pictures.json in the workflow box.<img alt="img.png" src="../img-en/text2img.png" /></li>
+<li>Enter what you want.<img alt="img.png" src="../img-en/text2img2.png" /></li>
+<li>Here you can enter some funny content, for example, I am Guan Yu vs. Snow White.</li>
+<li>The resolution of the picture and the number of pictures can be set here. If you want to speed up production, you can set the batch_size to 1.<img alt="img.png" src="../img-en/text2img3.png" /></li>
+<li>Wait for the image to be generated.</li>
+</ol>
+<h3 id="figure-function">Figure function</h3>
+<p>Access the template, or import your own workflow.<img alt="img2img.png" src="../img-en/img2img.png" /></p>
+<h2 id="api-call">API call</h2>
+<h3 id="api-endpoint-overview">API Endpoint Overview</h3>
+<p>| Endpoint | Method | Function | Description |
+| ------ | ------ | ------ | ------ | ------ |
+| '/queue' | GET | Get the queue status | View the current task queue |
+| '/prompt' | POST | Submit Workflow | Execute Build Task |
+| '/history/{prompt_id}' | GET | Obtain execution history | View task execution results |
+| '/upload/image' | POST | Upload an image | Upload an input image file |
+| '/view' | GET | Download the output file | Get the generated result file |</p>
+<p>Supports public or private network API calls.
+You can refer to the code to implement an API call script.</p>
+<p>'''python
+import requests
+import json
+import time</p>
+<p>def run_workflow_file(workflow_file, server="http://127.0.0.1:8188"):
+"" "Run Local Workflow JSON File" ""</p>
+<h1 id="load-workflow">Load workflow</h1>
+<p>with open(workflow_file, 'r', encoding='utf-8') as f:
+workflow = json.load(f)</p>
+<h1 id="submitted">Submitted</h1>
+<p>response = requests.post(f"{server}/prompt", json={"prompt": workflow})
+prompt_id = response.json()['prompt_id']
+print(f "Task submission: {prompt_id}")</p>
+<p>Waiting for completion
+while True:
+response = requests.get(f"{server}/history/{prompt_id}")
+history = response.json()
+if prompt_id in history:
+break
+print("Waiting...")
+time.sleep(3)</p>
+<h1 id="download-all-output-files">Download all output files</h1>
+<p>outputs = history[prompt_id]['outputs']
+for node_id, node_output in outputs.items():</p>
+<h1 id="handle-different-types-of-output">Handle different types of output</h1>
+<p>for file_type in ['images', 'videos', 'gifs']:
+if file_type in node_output:
+for file_info in node_output[file_type]:
+filename = file_info['filename']
+file_url = f"{server}/view?filename={filename}&amp;type=output"</p>
+<p>response = requests.get(file_url)
+with open(filename, 'wb') as f:
+f.write(response.content)
+print(f "Downloaded: {filename}")</p>
+<h1 id="use-examples">Use Examples</h1>
+<p>run_workflow_file("my_workflow.json")
+'''</p>
+<p>The local workflow is obtained by using the method provided in the following figure:
+<img alt="img_6.png" src="../acs-en/img_6.png" /></p>
+<p>Since the Comfyui does not provide official API documents, here are two complete examples based on Wen Sheng video and Wen Sheng video: on how to use API to call workflow for Wen Sheng diagram or Wen Sheng video, etc.
+Visit: https://github.com/aliyun-computenest/comfyui-acs/
+Find the demo folder
+<img alt="img_7.png" src="../acs-en/img_7.png" /></p>
+<h3 id="wen-sheng-video-api-mode">Wen Sheng Video API Mode</h3>
+<ol>
+<li>Open the workflow defined for confirm the good model. (The default model defined inside is the 14B's Wanxiang 2.1 Wensheng video model)</li>
+<li>Confirm parameters such as Prompt and generated resolution</li>
+<li>Modify the server service address in the code from 127.0.0.1 to your actual service address.<img alt="img_8.png" src="../acs-en/img_8.png" /></li>
+<li>Local execution of python, waiting for video generation.</li>
+</ol>
+<h3 id="picture-generation-video-api">Picture generation video API</h3>
+<ol>
+<li>Open the workflow defined for confirm the good model. (The default model defined inside is the video model of 14B universal phase 2.1 map generation)</li>
+<li>Confirm parameters such as Prompt and generated resolution</li>
+<li>Modify the server service address in the code from 127.0.0.1 to your actual service address.<img alt="img_8.png" src="../acs-en/img_8.png" /></li>
+<li>Local execution of python, waiting for video generation.</li>
+</ol>
+<h2 id="account-password">Account password</h2>
+<p>The default account and password are:
+1. Account number: admin
+2. Password: admin</p>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<ol>
+<li>If a node type does not exist, install the missing node through manager and restart.<img alt="img_1.png" src="../img-en/issue1.png" /><img alt="img.png" src="../img-en/issue2.png" /></li>
+</ol>
+        
+      </div>
+
+      <div class="copyrights">© 2009-2022 Aliyun.com 版权所有</div>
+    </div>
+  </div>
+  
+  <!--
+  MkDocs version      : 1.6.1
+  Docs Build Date UTC : 2025-07-24 11:02:08.169821+00:00
+  -->
+</body>
+</html>
